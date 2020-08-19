@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+    product-app:
+        container_name: product-app
+        image: product-app:1.0
+        ports:  
+            - 8081:8081
+        networks: 
+            - microservice1
+
+networks:
+    microservice1:
+        name: microservice1

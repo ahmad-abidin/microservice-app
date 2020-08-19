@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    order-app:
+        build: .
+        container_name: order-app
+        image: order-app:1.0
+        ports:  
+            - 8080:8080
+        networks: 
+            - microservice1
+
+networks:
+    microservice1:
+        name: microservice1
