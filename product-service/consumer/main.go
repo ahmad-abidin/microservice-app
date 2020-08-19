@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"log"
-	"microservice-app/product-app/consumer/service"
+	"microservice-app/product-service/consumer/service"
 
 	"github.com/Shopify/sarama"
 )
