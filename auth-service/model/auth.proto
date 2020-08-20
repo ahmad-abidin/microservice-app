@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/ahmad-abidin/microservice-app/auth-service";
-
-package auth;
+package model;
 
 message Identity {
     string username = 1;
