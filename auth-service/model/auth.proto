@@ -7,10 +7,17 @@ message Identity {
     string password = 2;
 }
 
+message FullIdentity {
+    string name = 1;
+    string email = 2;
+    string address = 3;
+}
+
 message Credential {
     string token = 1;
 }
 
 service Auth {
-    rpc Authentication(Identity) returns (Credential) {}
+    rpc Authentication(Identity) returns (Credential) {};
+    rpc Authorization(Credential) returns (FullIdentity) {};
 }

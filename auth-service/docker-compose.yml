@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+    auth_service:
+        build: .
+        container_name: auth_service
+        image: auth_service:1.0
+        ports:  
+            - 9000:9000
+        networks: 
+            - microservice_app
+        depends_on: 
+            - db_user
+    db_user:
+        container_name: db_user
+        image: mariadb
+        ports: 
+            - 3306:3306
+        environment: 
+            - MYSQL_ROOT_PASSWORD=root
+        networks: 
+            - microservice_app
+        volumes: 
+            - data_user:/var/lib/mysql
+
+networks:
+    microservice_app:
+        name: microservice_app
+volumes: 
+    data_user:
+        name: data_user

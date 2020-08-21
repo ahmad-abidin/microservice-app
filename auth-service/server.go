@@ -2,8 +2,11 @@ package main
 
 import (
 	"log"
+	"microservice-app/auth-service/model"
+	"microservice-app/auth-service/service"
 	"net"
 
+	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
 )
 
@@ -15,7 +18,11 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 
-	if err := grpcServer.Serve(lis); err != nil {
+	s := service.Server{}
+	model.RegisterAuthServer(grpcServer, &s)
+	log.Println("auth service runing on port 9000")
+	err = grpcServer.Serve(lis)
+	if err != nil {
 		log.Fatalf("failed to serve grpc server over port 9000: %v", err)
 	}
 }
