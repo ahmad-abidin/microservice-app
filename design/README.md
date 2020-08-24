@@ -12,10 +12,10 @@ e-mail : init.ahmad.abidin@gmail.com<br><br>
 ---
 # Design
 ## Conceptual Diagram
-![Conceptual Diagram](./design/sm-cd.png) 
+![Conceptual Diagram](./sm-cd.png) 
 ## Squance Diagram Login
-![Squance Diagram of Login](./design/sm-sqd-login.png) 
+![Squance Diagram of Login](./sm-sqd-login.png) 
 ## Squance Diagram Add Item
-![Squance Diagram of Add Item](./design/sm-sqd-add_item.png) 
+![Squance Diagram of Add Item](./sm-sqd-add_item.png) 
 ## Squance Diagram Checkout
-![Squance Diagram of Checkout](./design/sm-sqd-checkout.png) 
+![Squance Diagram of Checkout](./sm-sqd-checkout.png) 
