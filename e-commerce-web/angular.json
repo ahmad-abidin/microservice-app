@@ -3,7 +3,7 @@
   "version": 1, 
   "newProjectRoot": "projects",
   "projects": {
-    "e-commerce": {
+    "e-commerce-web": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/e-commerce",
+            "outputPath": "dist/e-commerce-web",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -62,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "e-commerce:build"
+            "browserTarget": "e-commerce-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "e-commerce:build:production"
+              "browserTarget": "e-commerce-web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "e-commerce:build"
+            "browserTarget": "e-commerce-web:build"
           }
         },
         "test": {
@@ -110,15 +110,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "e-commerce:serve"
+            "devServerTarget": "e-commerce-web:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "e-commerce:serve:production"
+              "devServerTarget": "e-commerce-web:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "e-commerce"
+  "defaultProject": "e-commerce-web"
 }
