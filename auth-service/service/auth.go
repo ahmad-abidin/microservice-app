@@ -42,9 +42,6 @@ func (s *Server) Authentication(ctx context.Context, identity *model.Identity) (
 		log.Fatalf("error Authentication-QueryRow: %v", err)
 		return nil, errors.New("invalid username and password")
 	}
-
-	log.Println("Createing Token...")
-
 	claims.StandardClaims.Issuer = "simple-microservice-app"
 	claims.StandardClaims.ExpiresAt = time.Now().Add(time.Duration(1) * time.Hour).Unix()
 	token := jwt.NewWithClaims(
@@ -68,15 +65,17 @@ func (s *Server) Authentication(ctx context.Context, identity *model.Identity) (
 func (s *Server) Authorization(ctx context.Context, credential *model.Credential) (*model.FullIdentity, error) {
 	log.Println("### Authorization ###")
 
+	fi := model.FullIdentity{}
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		log.Fatalf("error geting metadata")
 		return nil, errors.New("internal server error")
 	}
-
-	log.Println("Authorizating...")
 	arrayOfMd := md.Get("authorization")
 	unsignedToken := arrayOfMd[0]
+
+	log.Println("Authorizating...")
+
 	signedToken, err := jwt.Parse(unsignedToken, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("internal server error")
@@ -89,12 +88,13 @@ func (s *Server) Authorization(ctx context.Context, credential *model.Credential
 		log.Fatalf("error when signing token: %v", err)
 		return nil, errors.New("internal server error")
 	}
+
 	claims, ok := signedToken.Claims.(jwt.MapClaims)
 	if !ok || !signedToken.Valid {
 		log.Fatalf("error when check claims: %v", err)
 		return nil, errors.New("internal server error")
 	}
-	fi := model.FullIdentity{}
+
 	for key, val := range claims {
 		switch key {
 		case "Name":
@@ -108,6 +108,8 @@ func (s *Server) Authorization(ctx context.Context, credential *model.Credential
 			break
 		}
 	}
+
 	log.Printf("### Succesfully Authorization ###")
+
 	return &fi, nil
 }
