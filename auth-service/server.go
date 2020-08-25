@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	"microservice-app/auth-service/model"
+	"microservice-app/auth-service/proto"
 	"microservice-app/auth-service/service"
 	"net"
 
@@ -19,7 +19,7 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	s := service.Server{}
-	model.RegisterAuthServer(grpcServer, &s)
+	proto.RegisterAuthServer(grpcServer, &s)
 	log.Println("auth service runing on port 9000")
 	err = grpcServer.Serve(lis)
 	if err != nil {

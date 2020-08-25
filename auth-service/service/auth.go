@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"microservice-app/auth-service/model"
+	"microservice-app/auth-service/proto"
 
 	jwt "github.com/dgrijalva/jwt-go"
 
@@ -17,7 +18,7 @@ import (
 type Server struct{}
 
 // Authentication ...
-func (s *Server) Authentication(ctx context.Context, identity *model.Identity) (*model.Credential, error) {
+func (s *Server) Authentication(ctx context.Context, identity *proto.Identity) (*proto.Credential, error) {
 	log.Println("### Authentication ###")
 
 	claims := model.Claims{}
@@ -56,16 +57,16 @@ func (s *Server) Authentication(ctx context.Context, identity *model.Identity) (
 
 	log.Println("### Succesfully Authentication ###")
 
-	return &model.Credential{
+	return &proto.Credential{
 		Token: signedToken,
 	}, nil
 }
 
 // Authorization ...
-func (s *Server) Authorization(ctx context.Context, credential *model.Credential) (*model.FullIdentity, error) {
+func (s *Server) Authorization(ctx context.Context, credential *proto.Credential) (*proto.FullIdentity, error) {
 	log.Println("### Authorization ###")
 
-	fi := model.FullIdentity{}
+	fi := proto.FullIdentity{}
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		log.Fatalf("error geting metadata")
