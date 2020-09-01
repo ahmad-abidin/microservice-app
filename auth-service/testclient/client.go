@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"microservice-app/auth-service/proto"
+	"microservice-app/auth-service/model"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -17,10 +17,10 @@ func main() {
 	}
 	defer conn.Close()
 
-	a := proto.NewAuthClient(conn)
+	a := model.NewAuthClient(conn)
 
 	log.Println("### Authentication ###")
-	Identity := proto.Identity{
+	Identity := model.Identity{
 		Username: "abidin",
 		Password: "password123",
 	}
@@ -32,7 +32,7 @@ func main() {
 	log.Println("### Successfully Authentication ###")
 
 	log.Println("### Authorization ###")
-	credential := proto.Credential{
+	credential := model.Credential{
 		Token: "token",
 	}
 	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", res.Token)

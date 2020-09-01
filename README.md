@@ -12,4 +12,4 @@ protoc \
     --plugin=protoc-gen-ts=./e-commerce-web/node_modules/.bin/protoc-gen-ts \
     --ts_out=service=true:./e-commerce-web/src/app \
     --js_out=import_style=commonjs,binary:./e-commerce-web/src/app \
-    ./proto/auth.proto
+    ./model/auth.proto
