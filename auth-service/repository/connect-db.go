@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// ConnectDB ...
 func ConnectDB(username, password, host, port, dbname, driver string) (*sql.DB, error) {
 	connString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, host, port, dbname)
 

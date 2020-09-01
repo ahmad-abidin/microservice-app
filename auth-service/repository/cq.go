@@ -9,10 +9,12 @@ type sqlRepository struct {
 	db *sql.DB
 }
 
+// Repository ...
 type Repository interface {
 	GetByUnP(*model.Identity) (*model.Claims, error)
 }
 
+// NewRepository ...
 func NewRepository(db *sql.DB) Repository {
 	return &sqlRepository{db: db}
 }
