@@ -20,7 +20,7 @@ func main() {
 	a := model.NewAuthClient(conn)
 
 	log.Println("### Authentication ###")
-	Identity := model.Identity{
+	Identity := model.Credential{
 		Username: "abidin",
 		Password: "password123",
 	}
@@ -32,10 +32,10 @@ func main() {
 	log.Println("### Successfully Authentication ###")
 
 	log.Println("### Authorization ###")
-	credential := model.Credential{
-		Token: "token",
+	credential := model.Token{
+		Jwt: "token",
 	}
-	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", res.Token)
+	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", res.Jwt)
 	res2, err := a.Authorization(ctx, &credential)
 	if err != nil {
 		log.Fatalf("error when calling Authorization: %v", err)

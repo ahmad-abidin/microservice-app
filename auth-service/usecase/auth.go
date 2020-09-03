@@ -12,69 +12,68 @@ import (
 )
 
 // Usecase ...
-type Usecase struct {
-	Repository repo.Repository
+type usecase struct {
+	repository repo.Repository
+}
+
+func NewUsecase(r repo.Repository) usecase {
+	return usecase{repository: r}
 }
 
 // Authentication ...
-func (u *Usecase) Authentication(ctx context.Context, identity *model.Identity) (*model.Credential, error) {
-	log.Println("### Authentication ###")
+func (u *usecase) Authentication(ctx context.Context, c *model.Credential) (*model.Token, error) {
+	t := new(model.Token)
 
-	claims, err := u.Repository.GetByUnP(identity)
+	i, err := u.repository.GetByUnP(c)
 	if err != nil {
-		log.Fatalf("error Authentication-GetByUnP: %v", err)
-		return nil, errors.New("internal server error")
+		log.Fatalf("Error code AenG <- %v", err)
+		return nil, errors.New("AenG")
 	}
-	claims.StandardClaims.Issuer = model.AppicationName
-	claims.StandardClaims.ExpiresAt = model.ExpirationDuration
 
-	log.Println("Authenticating...")
+	signedToken, err := Encrypt(i)
+	if err != nil {
+		log.Fatalf("Error code AenE <- %v", err)
+		return nil, errors.New("AenE")
+	}
 
-	signedToken, err := Encrypt(claims)
+	t.Jwt = signedToken
 
-	log.Println("### Succesfully Authentication ###")
-
-	return &model.Credential{
-		Token: signedToken,
-	}, nil
+	log.Printf("### Succesfully Authentication ###")
+	return t, nil
 }
 
 // Authorization ...
-func (u *Usecase) Authorization(ctx context.Context, credential *model.Credential) (*model.FullIdentity, error) {
-	log.Println("### Authorization ###")
+func (u *usecase) Authorization(ctx context.Context, t *model.Token) (*model.Identity, error) {
+	i := new(model.Identity)
 
-	fi := model.FullIdentity{}
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		log.Fatalf("error geting metadata")
-		return nil, errors.New("internal server error")
+		log.Fatalf("Error code AorF <- %v", ok)
+		return nil, errors.New("AorF")
 	}
 	arrayOfMd := md.Get("authorization")
 	unsignedToken := arrayOfMd[0]
 
-	log.Println("Authorizating...")
-
 	claims, err := Decrypt(unsignedToken)
 	if err != nil {
-		log.Fatalf("error Decode token: %v", err)
-		return nil, errors.New("invalid username and password")
+		log.Fatalf("Error code AorD <- %v", err)
+		return nil, errors.New("AorD")
 	}
 
 	for key, val := range claims {
 		switch key {
 		case "Name":
-			fi.Name = val.(string)
+			i.Name = val.(string)
 			break
 		case "Email":
-			fi.Email = val.(string)
+			i.Email = val.(string)
 			break
 		case "Address":
-			fi.Address = val.(string)
+			i.Address = val.(string)
 			break
 		}
 	}
 
 	log.Printf("### Succesfully Authorization ###")
-
-	return &fi, nil
+	return i, nil
 }

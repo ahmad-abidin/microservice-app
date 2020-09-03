@@ -29,7 +29,7 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-type Identity struct {
+type Credential struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -38,127 +38,10 @@ type Identity struct {
 	Password string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 }
 
-func (x *Identity) Reset() {
-	*x = Identity{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_model_auth_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Identity) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Identity) ProtoMessage() {}
-
-func (x *Identity) ProtoReflect() protoreflect.Message {
-	mi := &file_model_auth_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Identity.ProtoReflect.Descriptor instead.
-func (*Identity) Descriptor() ([]byte, []int) {
-	return file_model_auth_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Identity) GetUsername() string {
-	if x != nil {
-		return x.Username
-	}
-	return ""
-}
-
-func (x *Identity) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-type FullIdentity struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Name    string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Email   string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Address string `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
-}
-
-func (x *FullIdentity) Reset() {
-	*x = FullIdentity{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_model_auth_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *FullIdentity) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FullIdentity) ProtoMessage() {}
-
-func (x *FullIdentity) ProtoReflect() protoreflect.Message {
-	mi := &file_model_auth_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FullIdentity.ProtoReflect.Descriptor instead.
-func (*FullIdentity) Descriptor() ([]byte, []int) {
-	return file_model_auth_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *FullIdentity) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *FullIdentity) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-func (x *FullIdentity) GetAddress() string {
-	if x != nil {
-		return x.Address
-	}
-	return ""
-}
-
-type Credential struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-}
-
 func (x *Credential) Reset() {
 	*x = Credential{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_model_auth_proto_msgTypes[2]
+		mi := &file_model_auth_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -171,7 +54,7 @@ func (x *Credential) String() string {
 func (*Credential) ProtoMessage() {}
 
 func (x *Credential) ProtoReflect() protoreflect.Message {
-	mi := &file_model_auth_proto_msgTypes[2]
+	mi := &file_model_auth_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -184,12 +67,129 @@ func (x *Credential) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Credential.ProtoReflect.Descriptor instead.
 func (*Credential) Descriptor() ([]byte, []int) {
+	return file_model_auth_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Credential) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *Credential) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type Identity struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Name    string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Email   string `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Address string `protobuf:"bytes,3,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (x *Identity) Reset() {
+	*x = Identity{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_model_auth_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Identity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Identity) ProtoMessage() {}
+
+func (x *Identity) ProtoReflect() protoreflect.Message {
+	mi := &file_model_auth_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Identity.ProtoReflect.Descriptor instead.
+func (*Identity) Descriptor() ([]byte, []int) {
+	return file_model_auth_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Identity) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Identity) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *Identity) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+type Token struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Jwt string `protobuf:"bytes,1,opt,name=jwt,proto3" json:"jwt,omitempty"`
+}
+
+func (x *Token) Reset() {
+	*x = Token{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_model_auth_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Token) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Token) ProtoMessage() {}
+
+func (x *Token) ProtoReflect() protoreflect.Message {
+	mi := &file_model_auth_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Token.ProtoReflect.Descriptor instead.
+func (*Token) Descriptor() ([]byte, []int) {
 	return file_model_auth_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Credential) GetToken() string {
+func (x *Token) GetJwt() string {
 	if x != nil {
-		return x.Token
+		return x.Jwt
 	}
 	return ""
 }
@@ -198,27 +198,26 @@ var File_model_auth_proto protoreflect.FileDescriptor
 
 var file_model_auth_proto_rawDesc = []byte{
 	0x0a, 0x10, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x12, 0x05, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x22, 0x42, 0x0a, 0x08, 0x49, 0x64, 0x65,
-	0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d,
-	0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x22, 0x52, 0x0a,
-	0x0c, 0x46, 0x75, 0x6c, 0x6c, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x12, 0x0a,
-	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
-	0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x22, 0x22, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x12,
-	0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
-	0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x32, 0x79, 0x0a, 0x04, 0x41, 0x75, 0x74, 0x68, 0x12, 0x36, 0x0a,
-	0x0e, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12,
-	0x0f, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79,
-	0x1a, 0x11, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x43, 0x72, 0x65, 0x64, 0x65, 0x6e, 0x74,
-	0x69, 0x61, 0x6c, 0x22, 0x00, 0x12, 0x39, 0x0a, 0x0d, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x11, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x43,
-	0x72, 0x65, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x1a, 0x13, 0x2e, 0x6d, 0x6f, 0x64, 0x65,
-	0x6c, 0x2e, 0x46, 0x75, 0x6c, 0x6c, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x22, 0x00,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x12, 0x05, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x22, 0x44, 0x0a, 0x0a, 0x43, 0x72, 0x65,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x6e,
+	0x61, 0x6d, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x22,
+	0x4e, 0x0a, 0x08, 0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x12, 0x12, 0x0a, 0x04, 0x6e,
+	0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x65, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22,
+	0x19, 0x0a, 0x05, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x10, 0x0a, 0x03, 0x6a, 0x77, 0x74, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6a, 0x77, 0x74, 0x32, 0x6d, 0x0a, 0x04, 0x41, 0x75,
+	0x74, 0x68, 0x12, 0x33, 0x0a, 0x0e, 0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x11, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x43, 0x72, 0x65,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x61, 0x6c, 0x1a, 0x0c, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e,
+	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0d, 0x41, 0x75, 0x74, 0x68, 0x6f,
+	0x72, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0c, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c,
+	0x2e, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x1a, 0x0f, 0x2e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x49,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x74, 0x79, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -235,15 +234,15 @@ func file_model_auth_proto_rawDescGZIP() []byte {
 
 var file_model_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_model_auth_proto_goTypes = []interface{}{
-	(*Identity)(nil),     // 0: model.Identity
-	(*FullIdentity)(nil), // 1: model.FullIdentity
-	(*Credential)(nil),   // 2: model.Credential
+	(*Credential)(nil), // 0: model.Credential
+	(*Identity)(nil),   // 1: model.Identity
+	(*Token)(nil),      // 2: model.Token
 }
 var file_model_auth_proto_depIdxs = []int32{
-	0, // 0: model.Auth.Authentication:input_type -> model.Identity
-	2, // 1: model.Auth.Authorization:input_type -> model.Credential
-	2, // 2: model.Auth.Authentication:output_type -> model.Credential
-	1, // 3: model.Auth.Authorization:output_type -> model.FullIdentity
+	0, // 0: model.Auth.Authentication:input_type -> model.Credential
+	2, // 1: model.Auth.Authorization:input_type -> model.Token
+	2, // 2: model.Auth.Authentication:output_type -> model.Token
+	1, // 3: model.Auth.Authorization:output_type -> model.Identity
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -258,7 +257,7 @@ func file_model_auth_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_model_auth_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Identity); i {
+			switch v := v.(*Credential); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -270,7 +269,7 @@ func file_model_auth_proto_init() {
 			}
 		}
 		file_model_auth_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FullIdentity); i {
+			switch v := v.(*Identity); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -282,7 +281,7 @@ func file_model_auth_proto_init() {
 			}
 		}
 		file_model_auth_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Credential); i {
+			switch v := v.(*Token); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -326,8 +325,8 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AuthClient interface {
-	Authentication(ctx context.Context, in *Identity, opts ...grpc.CallOption) (*Credential, error)
-	Authorization(ctx context.Context, in *Credential, opts ...grpc.CallOption) (*FullIdentity, error)
+	Authentication(ctx context.Context, in *Credential, opts ...grpc.CallOption) (*Token, error)
+	Authorization(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Identity, error)
 }
 
 type authClient struct {
@@ -338,8 +337,8 @@ func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
 	return &authClient{cc}
 }
 
-func (c *authClient) Authentication(ctx context.Context, in *Identity, opts ...grpc.CallOption) (*Credential, error) {
-	out := new(Credential)
+func (c *authClient) Authentication(ctx context.Context, in *Credential, opts ...grpc.CallOption) (*Token, error) {
+	out := new(Token)
 	err := c.cc.Invoke(ctx, "/model.Auth/Authentication", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -347,8 +346,8 @@ func (c *authClient) Authentication(ctx context.Context, in *Identity, opts ...g
 	return out, nil
 }
 
-func (c *authClient) Authorization(ctx context.Context, in *Credential, opts ...grpc.CallOption) (*FullIdentity, error) {
-	out := new(FullIdentity)
+func (c *authClient) Authorization(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Identity, error) {
+	out := new(Identity)
 	err := c.cc.Invoke(ctx, "/model.Auth/Authorization", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -358,18 +357,18 @@ func (c *authClient) Authorization(ctx context.Context, in *Credential, opts ...
 
 // AuthServer is the server API for Auth service.
 type AuthServer interface {
-	Authentication(context.Context, *Identity) (*Credential, error)
-	Authorization(context.Context, *Credential) (*FullIdentity, error)
+	Authentication(context.Context, *Credential) (*Token, error)
+	Authorization(context.Context, *Token) (*Identity, error)
 }
 
 // UnimplementedAuthServer can be embedded to have forward compatible implementations.
 type UnimplementedAuthServer struct {
 }
 
-func (*UnimplementedAuthServer) Authentication(context.Context, *Identity) (*Credential, error) {
+func (*UnimplementedAuthServer) Authentication(context.Context, *Credential) (*Token, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Authentication not implemented")
 }
-func (*UnimplementedAuthServer) Authorization(context.Context, *Credential) (*FullIdentity, error) {
+func (*UnimplementedAuthServer) Authorization(context.Context, *Token) (*Identity, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Authorization not implemented")
 }
 
@@ -378,7 +377,7 @@ func RegisterAuthServer(s *grpc.Server, srv AuthServer) {
 }
 
 func _Auth_Authentication_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Identity)
+	in := new(Credential)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -390,13 +389,13 @@ func _Auth_Authentication_Handler(srv interface{}, ctx context.Context, dec func
 		FullMethod: "/model.Auth/Authentication",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Authentication(ctx, req.(*Identity))
+		return srv.(AuthServer).Authentication(ctx, req.(*Credential))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Auth_Authorization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Credential)
+	in := new(Token)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -408,7 +407,7 @@ func _Auth_Authorization_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: "/model.Auth/Authorization",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Authorization(ctx, req.(*Credential))
+		return srv.(AuthServer).Authorization(ctx, req.(*Token))
 	}
 	return interceptor(ctx, in, info, handler)
 }

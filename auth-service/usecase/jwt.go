@@ -10,16 +10,23 @@ import (
 )
 
 // Encrypt jwt.go
-func Encrypt(claims *model.Claims) (string, error) {
+func Encrypt(i *model.Identity) (string, error) {
+	c := new(model.Claims)
+	c.Name = i.Name
+	c.Email = i.Email
+	c.Address = i.Address
+	c.StandardClaims.Issuer = model.AppicationName
+	c.StandardClaims.ExpiresAt = model.ExpirationDuration
+
 	token := jwt.NewWithClaims(
 		model.JwtSigningMethod,
-		claims,
+		c,
 	)
 
 	signedToken, err := token.SignedString(model.JwtSecretKey)
 	if err != nil {
-		log.Fatalf("error when signed token: %v", err)
-		return "", errors.New("internal server error")
+		log.Fatalf("Error code ES : %v", err)
+		return "", errors.New("ES")
 	}
 
 	return signedToken, nil
@@ -29,22 +36,22 @@ func Encrypt(claims *model.Claims) (string, error) {
 func Decrypt(unsignedToken string) (jwt.MapClaims, error) {
 	signedToken, err := jwt.Parse(unsignedToken, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("internal server error")
+			return nil, errors.New("Signing method invalid")
 		} else if method != model.JwtSigningMethod {
-			return nil, errors.New("internal server error")
+			return nil, errors.New("Signing method invalid")
 		}
 		return model.JwtSecretKey, nil
 	})
 
 	if err != nil {
-		log.Fatalf("error when signing token: %v", err)
-		return nil, errors.New("internal server error")
+		log.Fatalf("Error code DP : %v", err)
+		return nil, errors.New("DP")
 	}
 
 	claims, ok := signedToken.Claims.(jwt.MapClaims)
 	if !ok || !signedToken.Valid {
-		log.Fatalf("error when check claims: %v", err)
-		return nil, errors.New("internal server error")
+		log.Fatalf("Error code DC : %v", err)
+		return nil, errors.New("DC")
 	}
 
 	return claims, nil

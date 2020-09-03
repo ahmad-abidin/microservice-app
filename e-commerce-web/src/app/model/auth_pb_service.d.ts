@@ -9,8 +9,8 @@ type AuthAuthentication = {
   readonly service: typeof Auth;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof model_auth_pb.Identity;
-  readonly responseType: typeof model_auth_pb.Credential;
+  readonly requestType: typeof model_auth_pb.Credential;
+  readonly responseType: typeof model_auth_pb.Token;
 };
 
 type AuthAuthorization = {
@@ -18,8 +18,8 @@ type AuthAuthorization = {
   readonly service: typeof Auth;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof model_auth_pb.Credential;
-  readonly responseType: typeof model_auth_pb.FullIdentity;
+  readonly requestType: typeof model_auth_pb.Token;
+  readonly responseType: typeof model_auth_pb.Identity;
 };
 
 export class Auth {
@@ -61,22 +61,22 @@ export class AuthClient {
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   authentication(
-    requestMessage: model_auth_pb.Identity,
+    requestMessage: model_auth_pb.Credential,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Credential|null) => void
+    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Token|null) => void
   ): UnaryResponse;
   authentication(
-    requestMessage: model_auth_pb.Identity,
-    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Credential|null) => void
+    requestMessage: model_auth_pb.Credential,
+    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Token|null) => void
   ): UnaryResponse;
   authorization(
-    requestMessage: model_auth_pb.Credential,
+    requestMessage: model_auth_pb.Token,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: model_auth_pb.FullIdentity|null) => void
+    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Identity|null) => void
   ): UnaryResponse;
   authorization(
-    requestMessage: model_auth_pb.Credential,
-    callback: (error: ServiceError|null, responseMessage: model_auth_pb.FullIdentity|null) => void
+    requestMessage: model_auth_pb.Token,
+    callback: (error: ServiceError|null, responseMessage: model_auth_pb.Identity|null) => void
   ): UnaryResponse;
 }
 

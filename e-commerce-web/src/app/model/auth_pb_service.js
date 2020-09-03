@@ -15,8 +15,8 @@ Auth.Authentication = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: model_auth_pb.Identity,
-  responseType: model_auth_pb.Credential
+  requestType: model_auth_pb.Credential,
+  responseType: model_auth_pb.Token
 };
 
 Auth.Authorization = {
@@ -24,8 +24,8 @@ Auth.Authorization = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: model_auth_pb.Credential,
-  responseType: model_auth_pb.FullIdentity
+  requestType: model_auth_pb.Token,
+  responseType: model_auth_pb.Identity
 };
 
 exports.Auth = Auth;
