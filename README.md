@@ -1,18 +1,18 @@
 # Simple Microservice : e-commerce (not completed yet)
 View Design [Here](./design/README.md)
 
-tools :
-Angular :
-[@improbable-eng/grpc-web](https://www.npmjs.com/package/@improbable-eng/grpc-web)
-[ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen)
-Golang :
-[mysql](https://github.com/go-sql-driver/mysql)
-[grpc](https://google.golang.org/grpc)
-[protoc-gen-go](https://github.com/golang/protobuf/protoc-gen-go)
-[go module]
-other :
-[docker]
-[docker-compose]
+tools :<br>
+Angular :<br>
+[@improbable-eng/grpc-web](https://www.npmjs.com/package/@improbable-eng/grpc-web)<br>
+[ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen)<br>
+Golang :<br>
+[mysql](https://github.com/go-sql-driver/mysql)<br>
+[grpc](https://google.golang.org/grpc)<br>
+[protoc-gen-go](https://github.com/golang/protobuf/protoc-gen-go)<br>
+[go module]()<br>
+other :<br>
+[docker]()<br>
+[docker-compose]()<br>
 
 code architecture :
 [clean architecture (uncle bob)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
