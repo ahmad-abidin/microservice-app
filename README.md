@@ -8,8 +8,8 @@ Angular :
 
 generate proto angular and go:
 protoc \
-    --go_out=plugins=grpc:./auth-service \
+    --go_out=plugins=grpc:./auth-service/delivery/grpc \
     --plugin=protoc-gen-ts=./e-commerce-web/node_modules/.bin/protoc-gen-ts \
     --ts_out=service=true:./e-commerce-web/src/app \
     --js_out=import_style=commonjs,binary:./e-commerce-web/src/app \
-    ./model/auth.proto
+    ./proto/auth.proto

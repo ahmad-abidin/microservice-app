@@ -1,5 +1,5 @@
-// package: model
-// file: model/auth.proto
+// package: proto
+// file: proto/auth.proto
 
 import * as jspb from "google-protobuf";
 

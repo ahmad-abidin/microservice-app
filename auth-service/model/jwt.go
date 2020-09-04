@@ -16,6 +16,7 @@ var (
 // Claims required to generate JWT
 type Claims struct {
 	jwt.StandardClaims
+	// Identity
 	Name    string
 	Email   string
 	Address string

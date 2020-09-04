@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
-	"microservice-app/auth-service/model"
 
-	repository "microservice-app/auth-service/repository"
-	usecase "microservice-app/auth-service/usecase"
+	d "microservice-app/auth-service/delivery/grpc"
+	"microservice-app/auth-service/repository"
+	"microservice-app/auth-service/usecase"
+
 	"net"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -26,9 +27,10 @@ func main() {
 
 	r := repository.NewRepository(db)
 	s := usecase.NewUsecase(r)
-	grpcServer := grpc.NewServer()
-	model.RegisterAuthServer(grpcServer, &s)
 
+	// grpc
+	grpcServer := grpc.NewServer()
+	d.NewDeliveryGrpc(grpcServer, s)
 	log.Println("auth service runing on port 9000")
 	err = grpcServer.Serve(lis)
 	if err != nil {

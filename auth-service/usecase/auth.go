@@ -1,79 +1,51 @@
 package usecase
 
 import (
-	"context"
 	"errors"
 	"log"
 
 	"microservice-app/auth-service/model"
 	repo "microservice-app/auth-service/repository"
-
-	"google.golang.org/grpc/metadata"
 )
+
+type Usecase interface {
+	Authentication(model.Credential) (*string, error)
+	Authorization(string) (*model.Claims, error)
+}
 
 // Usecase ...
 type usecase struct {
 	repository repo.Repository
 }
 
-func NewUsecase(r repo.Repository) usecase {
-	return usecase{repository: r}
+func NewUsecase(r repo.Repository) Usecase {
+	return &usecase{r}
 }
 
 // Authentication ...
-func (u *usecase) Authentication(ctx context.Context, c *model.Credential) (*model.Token, error) {
-	t := new(model.Token)
-
-	i, err := u.repository.GetByUnP(c)
+func (u *usecase) Authentication(c model.Credential) (*string, error) {
+	claims, err := u.repository.GetByUnP(c)
 	if err != nil {
-		log.Fatalf("Error code AenG <- %v", err)
-		return nil, errors.New("AenG")
+		log.Fatalf("Error code U-AenG <- %v", err)
+		return nil, errors.New("U-AenG")
 	}
 
-	signedToken, err := Encrypt(i)
+	signedToken, err := Encrypt(*claims)
 	if err != nil {
-		log.Fatalf("Error code AenE <- %v", err)
-		return nil, errors.New("AenE")
+		log.Fatalf("Error code U-AenE <- %v", err)
+		return nil, errors.New("U-AenE")
 	}
 
-	t.Jwt = signedToken
-
-	log.Printf("### Succesfully Authentication ###")
-	return t, nil
+	return signedToken, nil
 }
 
 // Authorization ...
-func (u *usecase) Authorization(ctx context.Context, t *model.Token) (*model.Identity, error) {
-	i := new(model.Identity)
-
-	md, ok := metadata.FromIncomingContext(ctx)
-	if !ok {
-		log.Fatalf("Error code AorF <- %v", ok)
-		return nil, errors.New("AorF")
-	}
-	arrayOfMd := md.Get("authorization")
-	unsignedToken := arrayOfMd[0]
-
-	claims, err := Decrypt(unsignedToken)
+func (u *usecase) Authorization(t string) (*model.Claims, error) {
+	claims, err := Decrypt(t)
 	if err != nil {
-		log.Fatalf("Error code AorD <- %v", err)
-		return nil, errors.New("AorD")
+		log.Fatalf("Error code U-AorD <- %v", err)
+		return nil, errors.New("U-AorD")
 	}
 
-	for key, val := range claims {
-		switch key {
-		case "Name":
-			i.Name = val.(string)
-			break
-		case "Email":
-			i.Email = val.(string)
-			break
-		case "Address":
-			i.Address = val.(string)
-			break
-		}
-	}
-
-	log.Printf("### Succesfully Authorization ###")
-	return i, nil
+	return claims, nil
 }

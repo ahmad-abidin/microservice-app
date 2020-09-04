@@ -10,11 +10,7 @@ import (
 )
 
 // Encrypt jwt.go
-func Encrypt(i *model.Identity) (string, error) {
-	c := new(model.Claims)
-	c.Name = i.Name
-	c.Email = i.Email
-	c.Address = i.Address
+func Encrypt(c model.Claims) (*string, error) {
 	c.StandardClaims.Issuer = model.AppicationName
 	c.StandardClaims.ExpiresAt = model.ExpirationDuration
 
@@ -25,15 +21,15 @@ func Encrypt(i *model.Identity) (string, error) {
 
 	signedToken, err := token.SignedString(model.JwtSecretKey)
 	if err != nil {
-		log.Fatalf("Error code ES : %v", err)
-		return "", errors.New("ES")
+		log.Fatalf("Error code U-ES : %v", err)
+		return nil, errors.New("U-ES")
 	}
 
-	return signedToken, nil
+	return &signedToken, nil
 }
 
 // Decrypt jwt.go
-func Decrypt(unsignedToken string) (jwt.MapClaims, error) {
+func Decrypt(unsignedToken string) (*model.Claims, error) {
 	signedToken, err := jwt.Parse(unsignedToken, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("Signing method invalid")
@@ -44,15 +40,29 @@ func Decrypt(unsignedToken string) (jwt.MapClaims, error) {
 	})
 
 	if err != nil {
-		log.Fatalf("Error code DP : %v", err)
-		return nil, errors.New("DP")
+		log.Fatalf("Error code U-DP : %v", err)
+		return nil, errors.New("U-DP")
 	}
 
 	claims, ok := signedToken.Claims.(jwt.MapClaims)
 	if !ok || !signedToken.Valid {
-		log.Fatalf("Error code DC : %v", err)
-		return nil, errors.New("DC")
+		log.Fatalf("Error code U-DC : %v", ok)
+		return nil, errors.New("U-DC")
 	}
 
-	return claims, nil
+	c := new(model.Claims)
+	for k, v := range claims {
+		switch k {
+		case "Name":
+			c.Name = v.(string)
+			break
+		case "Email":
+			c.Email = v.(string)
+			break
+		case "Address":
+			c.Address = v.(string)
+			break
+		}
+	}
+	return c, nil
 }

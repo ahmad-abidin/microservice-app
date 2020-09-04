@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package model;
+package proto;
 
 message Credential {
     string username = 1;

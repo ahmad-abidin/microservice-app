@@ -1,12 +1,12 @@
-// package: model
-// file: model/auth.proto
+// package: proto
+// file: proto/auth.proto
 
-var model_auth_pb = require("../model/auth_pb");
+var proto_auth_pb = require("../proto/auth_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Auth = (function () {
   function Auth() {}
-  Auth.serviceName = "model.Auth";
+  Auth.serviceName = "proto.Auth";
   return Auth;
 }());
 
@@ -15,8 +15,8 @@ Auth.Authentication = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: model_auth_pb.Credential,
-  responseType: model_auth_pb.Token
+  requestType: proto_auth_pb.Credential,
+  responseType: proto_auth_pb.Token
 };
 
 Auth.Authorization = {
@@ -24,8 +24,8 @@ Auth.Authorization = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: model_auth_pb.Token,
-  responseType: model_auth_pb.Identity
+  requestType: proto_auth_pb.Token,
+  responseType: proto_auth_pb.Identity
 };
 
 exports.Auth = Auth;
