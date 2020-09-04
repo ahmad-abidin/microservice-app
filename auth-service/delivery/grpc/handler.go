@@ -25,9 +25,9 @@ func NewDeliveryGrpc(s *grpc.Server, u usecase.Usecase) {
 }
 
 // Authentication ...
-func (u *server) Authentication(ctx context.Context, c *proto.Credential) (res *proto.Token, err error) {
+func (u *server) Authentication(ctx context.Context, c *proto.Credential) (*proto.Token, error) {
 	m := model.Credential{}
-	// res := new(proto.Token)
+	res := new(proto.Token)
 
 	m.Username = c.Username
 	m.Password = c.Password
