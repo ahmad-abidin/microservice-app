@@ -5,6 +5,18 @@ tools :
 Angular :
 [@improbable-eng/grpc-web](https://www.npmjs.com/package/@improbable-eng/grpc-web)
 [ts-protoc-gen](https://www.npmjs.com/package/ts-protoc-gen)
+Golang :
+[mysql](https://github.com/go-sql-driver/mysql)
+[grpc](https://google.golang.org/grpc)
+[protoc-gen-go](https://github.com/golang/protobuf/protoc-gen-go)
+[go module]
+other :
+[docker]
+[docker-compose]
+
+code architecture :
+[clean architecture (uncle bob)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+[clean architecture (iman tumorang)](https://medium.com/hackernoon/golang-clean-archithecture-efd6d7c43047)
 
 generate proto angular and go:
 protoc \
