@@ -21,7 +21,7 @@ func Encrypt(c model.Claims) (*string, error) {
 
 	signedToken, err := token.SignedString(model.JwtSecretKey)
 	if err != nil {
-		log.Fatalf("Error code U-ES : %v", err)
+		log.Printf("Error code U-ES : %v", err)
 		return nil, errors.New("U-ES")
 	}
 
@@ -40,13 +40,13 @@ func Decrypt(unsignedToken string) (*model.Claims, error) {
 	})
 
 	if err != nil {
-		log.Fatalf("Error code U-DP : %v", err)
+		log.Printf("Error code U-DP : %v", err)
 		return nil, errors.New("U-DP")
 	}
 
 	claims, ok := signedToken.Claims.(jwt.MapClaims)
 	if !ok || !signedToken.Valid {
-		log.Fatalf("Error code U-DC : %v", ok)
+		log.Printf("Error code U-DC : %v", ok)
 		return nil, errors.New("U-DC")
 	}
 

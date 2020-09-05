@@ -2,6 +2,7 @@
 // file: proto/auth.proto
 
 var proto_auth_pb = require("../proto/auth_pb");
+var google_protobuf_empty_pb = require("google-protobuf/google/protobuf/empty_pb");
 var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Auth = (function () {
@@ -15,8 +16,8 @@ Auth.Authentication = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: proto_auth_pb.Credential,
-  responseType: proto_auth_pb.Token
+  requestType: google_protobuf_empty_pb.Empty,
+  responseType: proto_auth_pb.Credential
 };
 
 Auth.Authorization = {
@@ -24,7 +25,7 @@ Auth.Authorization = {
   service: Auth,
   requestStream: false,
   responseStream: false,
-  requestType: proto_auth_pb.Token,
+  requestType: google_protobuf_empty_pb.Empty,
   responseType: proto_auth_pb.Identity
 };
 

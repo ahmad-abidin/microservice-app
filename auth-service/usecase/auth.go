@@ -1,7 +1,9 @@
 package usecase
 
 import (
+	"crypto/sha256"
 	"errors"
+	"fmt"
 	"log"
 
 	"microservice-app/auth-service/model"
@@ -9,7 +11,7 @@ import (
 )
 
 type Usecase interface {
-	Authentication(model.Credential) (*string, error)
+	Authentication(string, string) (*string, error)
 	Authorization(string) (*model.Claims, error)
 }
 
@@ -23,16 +25,20 @@ func NewUsecase(r repo.Repository) Usecase {
 }
 
 // Authentication ...
-func (u *usecase) Authentication(c model.Credential) (*string, error) {
-	claims, err := u.repository.GetByUnP(c)
+func (u *usecase) Authentication(username, password string) (*string, error) {
+	sha := sha256.New()
+	sha.Write([]byte(password))
+	password = fmt.Sprintf("%x", sha.Sum(nil))
+
+	claims, err := u.repository.GetByUnP(username, password)
 	if err != nil {
-		log.Fatalf("Error code U-AenG <- %v", err)
+		log.Printf("Error code U-AenG <- %v", err)
 		return nil, errors.New("U-AenG")
 	}
 
 	signedToken, err := Encrypt(*claims)
 	if err != nil {
-		log.Fatalf("Error code U-AenE <- %v", err)
+		log.Printf("Error code U-AenE <- %v", err)
 		return nil, errors.New("U-AenE")
 	}
 
@@ -43,7 +49,7 @@ func (u *usecase) Authentication(c model.Credential) (*string, error) {
 func (u *usecase) Authorization(t string) (*model.Claims, error) {
 	claims, err := Decrypt(t)
 	if err != nil {
-		log.Fatalf("Error code U-AorD <- %v", err)
+		log.Printf("Error code U-AorD <- %v", err)
 		return nil, errors.New("U-AorD")
 	}
 

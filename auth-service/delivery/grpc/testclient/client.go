@@ -8,38 +8,33 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 func main() {
 	conn, err := grpc.Dial("auth_service:9000", grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("could not connect : %v", err)
+		log.Printf("could not connect : %v", err)
 	}
 	defer conn.Close()
-
 	a := proto.NewAuthClient(conn)
 
 	log.Println("### Authentication ###")
-	Identity := proto.Credential{
-		Username: "abidin",
-		Password: "password123",
-	}
-	res, err := a.Authentication(context.Background(), &Identity)
+
+	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", "Basic YWJpZGluOnBhc3N3b3JkMTIzNA==")
+	token, err := a.Authentication(ctx, &emptypb.Empty{})
 	if err != nil {
-		log.Fatalf("error when calling Authentication: %v", err)
+		log.Printf("error when calling Authentication: %v", err)
 	}
-	log.Printf("credential: %v", res)
+	log.Printf("credential: %v", token)
 	log.Println("### Successfully Authentication ###")
 
 	log.Println("### Authorization ###")
-	credential := proto.Token{
-		Jwt: "token",
-	}
-	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", res.Jwt)
-	res2, err := a.Authorization(ctx, &credential)
+	ctx = metadata.AppendToOutgoingContext(context.Background(), "authorization", "Bearer "+token.Jwt)
+	identity, err := a.Authorization(ctx, &emptypb.Empty{})
 	if err != nil {
-		log.Fatalf("error when calling Authorization: %v", err)
+		log.Printf("error when calling Authorization: %v", err)
 	}
-	log.Printf("full_identity: %v", res2)
+	log.Printf("full_identity: %v", identity)
 	log.Println("### Successfully Authorization ###")
 }

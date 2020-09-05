@@ -2,22 +2,20 @@ syntax = "proto3";
 
 package proto;
 
-message Credential {
-    string username = 1;
-    string password = 2;
-}
+import "google/protobuf/empty.proto";
 
 message Identity {
     string name = 1;
     string email = 2;
     string address = 3;
+    string role = 4; 
 }
 
-message Token {
+message Credential {
     string jwt = 1;
 }
 
 service Auth {
-    rpc Authentication(Credential) returns (Token) {};
-    rpc Authorization(Token) returns (Identity) {};
+    rpc Authentication(google.protobuf.Empty) returns (Credential) {};
+    rpc Authorization(google.protobuf.Empty) returns (Identity) {};
 }

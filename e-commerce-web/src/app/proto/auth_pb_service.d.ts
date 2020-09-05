@@ -2,6 +2,7 @@
 // file: proto/auth.proto
 
 import * as proto_auth_pb from "../proto/auth_pb";
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 import {grpc} from "@improbable-eng/grpc-web";
 
 type AuthAuthentication = {
@@ -9,8 +10,8 @@ type AuthAuthentication = {
   readonly service: typeof Auth;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof proto_auth_pb.Credential;
-  readonly responseType: typeof proto_auth_pb.Token;
+  readonly requestType: typeof google_protobuf_empty_pb.Empty;
+  readonly responseType: typeof proto_auth_pb.Credential;
 };
 
 type AuthAuthorization = {
@@ -18,7 +19,7 @@ type AuthAuthorization = {
   readonly service: typeof Auth;
   readonly requestStream: false;
   readonly responseStream: false;
-  readonly requestType: typeof proto_auth_pb.Token;
+  readonly requestType: typeof google_protobuf_empty_pb.Empty;
   readonly responseType: typeof proto_auth_pb.Identity;
 };
 
@@ -61,21 +62,21 @@ export class AuthClient {
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   authentication(
-    requestMessage: proto_auth_pb.Credential,
+    requestMessage: google_protobuf_empty_pb.Empty,
     metadata: grpc.Metadata,
-    callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Token|null) => void
+    callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Credential|null) => void
   ): UnaryResponse;
   authentication(
-    requestMessage: proto_auth_pb.Credential,
-    callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Token|null) => void
+    requestMessage: google_protobuf_empty_pb.Empty,
+    callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Credential|null) => void
   ): UnaryResponse;
   authorization(
-    requestMessage: proto_auth_pb.Token,
+    requestMessage: google_protobuf_empty_pb.Empty,
     metadata: grpc.Metadata,
     callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Identity|null) => void
   ): UnaryResponse;
   authorization(
-    requestMessage: proto_auth_pb.Token,
+    requestMessage: google_protobuf_empty_pb.Empty,
     callback: (error: ServiceError|null, responseMessage: proto_auth_pb.Identity|null) => void
   ): UnaryResponse;
 }

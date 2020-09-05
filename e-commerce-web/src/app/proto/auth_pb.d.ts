@@ -2,30 +2,7 @@
 // file: proto/auth.proto
 
 import * as jspb from "google-protobuf";
-
-export class Credential extends jspb.Message {
-  getUsername(): string;
-  setUsername(value: string): void;
-
-  getPassword(): string;
-  setPassword(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Credential.AsObject;
-  static toObject(includeInstance: boolean, msg: Credential): Credential.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Credential, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Credential;
-  static deserializeBinaryFromReader(message: Credential, reader: jspb.BinaryReader): Credential;
-}
-
-export namespace Credential {
-  export type AsObject = {
-    username: string,
-    password: string,
-  }
-}
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 export class Identity extends jspb.Message {
   getName(): string;
@@ -36,6 +13,9 @@ export class Identity extends jspb.Message {
 
   getAddress(): string;
   setAddress(value: string): void;
+
+  getRole(): string;
+  setRole(value: string): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Identity.AsObject;
@@ -52,24 +32,25 @@ export namespace Identity {
     name: string,
     email: string,
     address: string,
+    role: string,
   }
 }
 
-export class Token extends jspb.Message {
+export class Credential extends jspb.Message {
   getJwt(): string;
   setJwt(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Token.AsObject;
-  static toObject(includeInstance: boolean, msg: Token): Token.AsObject;
+  toObject(includeInstance?: boolean): Credential.AsObject;
+  static toObject(includeInstance: boolean, msg: Credential): Credential.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Token, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Token;
-  static deserializeBinaryFromReader(message: Token, reader: jspb.BinaryReader): Token;
+  static serializeBinaryToWriter(message: Credential, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Credential;
+  static deserializeBinaryFromReader(message: Credential, reader: jspb.BinaryReader): Credential;
 }
 
-export namespace Token {
+export namespace Credential {
   export type AsObject = {
     jwt: string,
   }

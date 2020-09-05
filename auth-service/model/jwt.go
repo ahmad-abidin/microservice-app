@@ -20,4 +20,5 @@ type Claims struct {
 	Name    string
 	Email   string
 	Address string
+	Role    string
 }
