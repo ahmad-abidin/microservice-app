@@ -6,7 +6,7 @@ import (
 	"errors"
 	"log"
 	"microservice-app/auth-service/delivery/grpc/proto"
-	"microservice-app/auth-service/usecase"
+	ucs "microservice-app/auth-service/usecase"
 	"strings"
 
 	"github.com/golang/protobuf/ptypes/empty"
@@ -15,11 +15,11 @@ import (
 )
 
 type server struct {
-	usecase usecase.Usecase
+	usecase ucs.Usecase
 }
 
 // NewDeliveryGrpc ...
-func NewDeliveryGrpc(s *grpc.Server, u usecase.Usecase) {
+func NewDeliveryGrpc(s *grpc.Server, u ucs.Usecase) {
 	authServer := &server{
 		usecase: u,
 	}

@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"microservice-app/auth-service/model"
-	repo "microservice-app/auth-service/repository"
+	rpo "microservice-app/auth-service/repository/sql"
 )
 
 type Usecase interface {
@@ -17,10 +17,10 @@ type Usecase interface {
 
 // Usecase ...
 type usecase struct {
-	repository repo.Repository
+	repository rpo.Repository
 }
 
-func NewUsecase(r repo.Repository) Usecase {
+func NewUsecase(r rpo.Repository) Usecase {
 	return &usecase{r}
 }
 

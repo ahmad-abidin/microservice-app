@@ -3,9 +3,9 @@ package main
 import (
 	"log"
 
-	d "microservice-app/auth-service/delivery/grpc"
-	"microservice-app/auth-service/repository"
-	"microservice-app/auth-service/usecase"
+	dlv "microservice-app/auth-service/delivery/grpc"
+	rpo "microservice-app/auth-service/repository/sql"
+	ucs "microservice-app/auth-service/usecase"
 
 	"net"
 
@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	db, err := repository.ConnectDB("root", "root", "db_user", "3306", "user", "mysql")
+	db, err := rpo.ConnectDB("root", "root", "db_user", "3306", "user", "mysql")
 	if err != nil {
 		log.Fatalf("failed to connect db: %v", err)
 	}
@@ -25,12 +25,12 @@ func main() {
 		log.Fatalf("failed to listen on port 9000: %v", err)
 	}
 
-	r := repository.NewRepository(db)
-	s := usecase.NewUsecase(r)
+	r := rpo.NewRepository(db)
+	s := ucs.NewUsecase(r)
 
 	// grpc
 	grpcServer := grpc.NewServer()
-	d.NewDeliveryGrpc(grpcServer, s)
+	dlv.NewDeliveryGrpc(grpcServer, s)
 	log.Println("auth service runing on port 9000")
 	err = grpcServer.Serve(lis)
 	if err != nil {
