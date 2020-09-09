@@ -21,7 +21,7 @@ func main() {
 
 	log.Println("### Authentication ###")
 
-	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", "Basic YWJpZGluOnBhc3N3b3JkMTIzNA==")
+	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", "Basic YWhtYWQuYWJpZGluQG1haWwuY29tOnBhc3N3b3JkMTIzNA==")
 	token, err := a.Authentication(ctx, &emptypb.Empty{})
 	if err != nil {
 		log.Printf("error when calling Authentication: %v", err)

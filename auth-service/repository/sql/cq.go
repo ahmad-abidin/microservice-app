@@ -22,7 +22,11 @@ func NewRepository(db *sql.DB) Repository {
 }
 
 func (sql *repository) GetByUnP(username, password string) (*model.Claims, error) {
-	stmt, err := sql.db.Prepare("select name, email, address from identity where name = ? and password = ?")
+	stmt, err := sql.db.Prepare(`
+		select i.name, i.email, i.address, r.name 
+		from identity i, role r
+		where i.email = ? and i.password = ? and i.id_role = r.id
+	`)
 	if err != nil {
 		log.Printf("Error code R-GP : %v", err)
 		return nil, errors.New("R-GP")
@@ -34,6 +38,7 @@ func (sql *repository) GetByUnP(username, password string) (*model.Claims, error
 		&i.Name,
 		&i.Email,
 		&i.Address,
+		&i.Role,
 	); err != nil {
 		log.Printf("Error code R-GQ : %v", err)
 		return nil, errors.New("R-GQ")

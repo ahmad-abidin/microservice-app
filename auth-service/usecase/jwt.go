@@ -62,6 +62,9 @@ func Decrypt(unsignedToken string) (*model.Claims, error) {
 		case "Address":
 			c.Address = v.(string)
 			break
+		case "Role":
+			c.Role = v.(string)
+			break
 		}
 	}
 	return c, nil
