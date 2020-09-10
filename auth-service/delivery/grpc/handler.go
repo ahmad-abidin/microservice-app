@@ -3,9 +3,10 @@ package grpc
 import (
 	"context"
 	"encoding/base64"
-	"errors"
+	"fmt"
 	"log"
 	"microservice-app/auth-service/delivery/grpc/proto"
+	"microservice-app/auth-service/model"
 	ucs "microservice-app/auth-service/usecase"
 	"strings"
 
@@ -32,8 +33,7 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	base64BasicAuth, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		log.Printf("Error code grpc-Aen_gAH <- %v", err)
-		return nil, errors.New("grpc-Aen_gAH")
+		return nil, model.LogAndError("grpc-Aen_gAH", err)
 	}
 	*base64BasicAuth = strings.Replace(*base64BasicAuth, "Basic ", "", -1)
 	decodedBasicAuth, err := base64.StdEncoding.DecodeString(*base64BasicAuth)
@@ -43,8 +43,7 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	t, err := u.usecase.Authentication(username, password)
 	if err != nil {
-		log.Printf("Error code grpc-Aen_Aen <- %v", err)
-		return nil, errors.New("grpc-Aen_Aen")
+		return nil, model.LogAndError("grpc-Aen_Aen", err)
 	}
 
 	res.Jwt = *t
@@ -59,15 +58,13 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 
 	unsignedToken, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		log.Printf("Error code grpc-Aor_gAH <- %v", err)
-		return nil, errors.New("grpc-Aor_gAH")
+		return nil, model.LogAndError("grpc-Aor_gAH", err)
 	}
 	*unsignedToken = strings.Replace(*unsignedToken, "Bearer ", "", -1)
 
 	c, err := u.usecase.Authorization(*unsignedToken)
 	if err != nil {
-		log.Printf("Error code grpc-Aor_Aor <- %v", err)
-		return nil, errors.New("grpc-Aor_Aor")
+		return nil, model.LogAndError("grpc-Aor_Aor", err)
 	}
 
 	i.Name = c.Name
@@ -82,8 +79,7 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 func getAuthorizationHeader(ctx context.Context) (*string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		log.Printf("Error code grpc-gAH : %v", ok)
-		return nil, errors.New("grpc-gAH")
+		return nil, model.LogAndError("grpc-gAH", fmt.Errorf("authorization header : %v", ok))
 	}
 	arrayOfMd := md.Get("authorization")
 	authorization := arrayOfMd[0]

@@ -2,8 +2,6 @@ package sql
 
 import (
 	"database/sql"
-	"errors"
-	"log"
 	"microservice-app/auth-service/model"
 )
 
@@ -29,8 +27,7 @@ func (r *repository) GetIdentityByUnP(username, password string) (*model.Identit
 		where i.email = ? and i.password = ? and i.id_role = r.id
 	`)
 	if err != nil {
-		log.Printf("Error code sql-GIBUP_P : %v", err)
-		return nil, errors.New("sql-GIBUP_P")
+		return nil, model.LogAndError("sql-GIBUP_P", err)
 	}
 	defer stmt.Close()
 
@@ -41,8 +38,7 @@ func (r *repository) GetIdentityByUnP(username, password string) (*model.Identit
 		&identity.Address,
 		&identity.Role,
 	); err != nil {
-		log.Printf("Error code sql-GIBUP_QR : %v", err)
-		return nil, errors.New("sql-GIBUP_QR")
+		return nil, model.LogAndError("sql-GIBUP_QR", err)
 	}
 
 	return identity, nil

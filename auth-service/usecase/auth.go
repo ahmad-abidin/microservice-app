@@ -2,9 +2,7 @@ package usecase
 
 import (
 	"crypto/sha256"
-	"errors"
 	"fmt"
-	"log"
 
 	"microservice-app/auth-service/model"
 	"microservice-app/auth-service/repository/nosql"
@@ -28,35 +26,32 @@ func NewUsecase(s sql.Repository, n nosql.Repository) Usecase {
 
 // Authentication username (email)
 func (u *usecase) Authentication(username, password string) (*string, error) {
+	var identity *model.Identity
+	var err error
+
 	sha := sha256.New()
 	sha.Write([]byte(password))
 	password = fmt.Sprintf("%x", sha.Sum(nil))
 
 	// get from redis
-	identity, _ := u.nosqlRpo.GetIdentity(username)
-
+	identity, _ = u.nosqlRpo.GetIdentity(username)
 	if identity == nil {
 		// get from mariadb
-		identity, err := u.sqlRpo.GetIdentityByUnP(username, password)
+		identity, err = u.sqlRpo.GetIdentityByUnP(username, password)
 		if err != nil {
-			log.Printf("Error code usecase-Aen_GIBUP <- %v", err)
-			return nil, errors.New("usecase-Aen_GIBUP")
+			return nil, model.LogAndError("usecase-Aen_GIBUP", err)
 		}
 
 		// store to redis
-		status, err := u.nosqlRpo.StoreIdentity(username, *identity)
+		_, err := u.nosqlRpo.StoreIdentity(username, *identity)
 		if err != nil {
-			log.Printf("Error code usecase-Aen_SI <- %v", err)
-			return nil, errors.New("usecase-Aen_SI")
+			return nil, model.LogAndError("usecase-Aen_SI", err)
 		}
-
-		log.Printf("Successfully caching data : %v", *status)
 	}
 
 	encryptedIdentity, err := Encrypt(*identity)
 	if err != nil {
-		log.Printf("Error code usecase-Aen_E <- %v", err)
-		return nil, errors.New("usecase-Aen_E")
+		return nil, model.LogAndError("usecase-Aen_E", err)
 	}
 
 	return encryptedIdentity, nil
@@ -66,8 +61,7 @@ func (u *usecase) Authentication(username, password string) (*string, error) {
 func (u *usecase) Authorization(encryptedIdentity string) (*model.Identity, error) {
 	decryptedIdentity, err := Decrypt(encryptedIdentity)
 	if err != nil {
-		log.Printf("Error code usecase-Aor_D <- %v", err)
-		return nil, errors.New("usecase-Aor_D")
+		return nil, model.LogAndError("usecase-Aor_D", err)
 	}
 
 	return decryptedIdentity, nil

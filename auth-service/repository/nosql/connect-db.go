@@ -1,6 +1,8 @@
 package nosql
 
 import (
+	"microservice-app/auth-service/model"
+
 	"github.com/go-redis/redis"
 )
 
@@ -12,7 +14,7 @@ func ConnectDB(host, port, password string) (*redis.Client, error) {
 	})
 
 	if _, err := rdb.Ping().Result(); err != nil {
-		return nil, err
+		return nil, model.LogAndError("nosql-CDB_NC", err)
 	}
 
 	return rdb, nil
