@@ -1,15 +1,13 @@
 version: "3.8"
 services:
-    auth_service:
-        build: .
-        container_name: auth_service
-        image: auth_service:1.0
-        ports:  
-            - 9000:9000
+    db_auth:
+        container_name: db_auth
+        image: redis
+        ports: 
+            - 6379:6379
+        command: redis-server --requirepass root
         networks: 
             - microservice_app
-        depends_on: 
-            - db_user
     db_user:
         container_name: db_user
         image: mariadb
@@ -21,6 +19,17 @@ services:
             - microservice_app
         volumes: 
             - data_user:/var/lib/mysql
+    auth_service:
+        build: .
+        container_name: auth_service
+        image: auth_service:1.0
+        ports:  
+            - 9000:9000
+        networks: 
+            - microservice_app
+        depends_on: 
+            - db_user
+            - db_auth
 
 networks:
     microservice_app:

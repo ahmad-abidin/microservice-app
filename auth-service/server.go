@@ -4,7 +4,7 @@ import (
 	"log"
 
 	dlv "microservice-app/auth-service/delivery/grpc"
-	rpo "microservice-app/auth-service/repository/sql"
+	rpo "microservice-app/auth-service/repository/mariadb"
 	ucs "microservice-app/auth-service/usecase"
 
 	"net"

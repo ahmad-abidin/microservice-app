@@ -7,7 +7,7 @@ import (
 	"log"
 
 	"microservice-app/auth-service/model"
-	rpo "microservice-app/auth-service/repository/sql"
+	rpo "microservice-app/auth-service/repository/mariadb"
 )
 
 type Usecase interface {
