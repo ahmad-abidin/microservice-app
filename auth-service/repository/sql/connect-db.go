@@ -1,4 +1,4 @@
-package mariadb
+package sql
 
 import (
 	"database/sql"

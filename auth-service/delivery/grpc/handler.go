@@ -32,8 +32,8 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	base64BasicAuth, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		log.Printf("Error code G-Aen_g <- %v", err)
-		return nil, errors.New("G-Aen_g")
+		log.Printf("Error code grpc-Aen_gAH <- %v", err)
+		return nil, errors.New("grpc-Aen_gAH")
 	}
 	*base64BasicAuth = strings.Replace(*base64BasicAuth, "Basic ", "", -1)
 	decodedBasicAuth, err := base64.StdEncoding.DecodeString(*base64BasicAuth)
@@ -43,8 +43,8 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	t, err := u.usecase.Authentication(username, password)
 	if err != nil {
-		log.Printf("Error code G-Aen_A <- %v", err)
-		return nil, errors.New("G-Aen_A")
+		log.Printf("Error code grpc-Aen_Aen <- %v", err)
+		return nil, errors.New("grpc-Aen_Aen")
 	}
 
 	res.Jwt = *t
@@ -59,15 +59,15 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 
 	unsignedToken, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		log.Printf("Error code G-Aor_g <- %v", err)
-		return nil, errors.New("G-Aor_g")
+		log.Printf("Error code grpc-Aor_gAH <- %v", err)
+		return nil, errors.New("grpc-Aor_gAH")
 	}
 	*unsignedToken = strings.Replace(*unsignedToken, "Bearer ", "", -1)
 
 	c, err := u.usecase.Authorization(*unsignedToken)
 	if err != nil {
-		log.Printf("Error code G-Aor_A <- %v", err)
-		return nil, errors.New("G-Aor_A")
+		log.Printf("Error code grpc-Aor_Aor <- %v", err)
+		return nil, errors.New("grpc-Aor_Aor")
 	}
 
 	i.Name = c.Name
@@ -82,8 +82,8 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 func getAuthorizationHeader(ctx context.Context) (*string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		log.Printf("Error code G-g : %v", ok)
-		return nil, errors.New("G-g")
+		log.Printf("Error code grpc-gAH : %v", ok)
+		return nil, errors.New("grpc-gAH")
 	}
 	arrayOfMd := md.Get("authorization")
 	authorization := arrayOfMd[0]

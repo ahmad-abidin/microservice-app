@@ -4,7 +4,8 @@ import (
 	"log"
 
 	dlv "microservice-app/auth-service/delivery/grpc"
-	rpo "microservice-app/auth-service/repository/mariadb"
+	nosqlRpo "microservice-app/auth-service/repository/nosql"
+	sqlRpo "microservice-app/auth-service/repository/sql"
 	ucs "microservice-app/auth-service/usecase"
 
 	"net"
@@ -14,23 +15,30 @@ import (
 )
 
 func main() {
-	db, err := rpo.ConnectDB("root", "root", "db_user", "3306", "user", "mysql")
+	db, err := sqlRpo.ConnectDB("root", "root", "db_user", "3306", "user", "mysql")
 	if err != nil {
 		log.Fatalf("failed to connect db: %v", err)
 	}
 	defer db.Close()
+
+	client, err := nosqlRpo.ConnectDB("db_auth", "6379", "root")
+	if err != nil {
+		log.Fatalf("failed to connect db: %v", err)
+	}
+	defer client.Close()
 
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("failed to listen on port 9000: %v", err)
 	}
 
-	r := rpo.NewRepository(db)
-	s := ucs.NewUsecase(r)
+	s := sqlRpo.NewSQLRepository(db)
+	n := nosqlRpo.NewNoSQLRepository(client)
+	u := ucs.NewUsecase(s, n)
 
 	// grpc
 	grpcServer := grpc.NewServer()
-	dlv.NewDeliveryGrpc(grpcServer, s)
+	dlv.NewDeliveryGrpc(grpcServer, u)
 	log.Println("auth service runing on port 9000")
 	err = grpcServer.Serve(lis)
 	if err != nil {

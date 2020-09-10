@@ -1,4 +1,4 @@
-package redis
+package nosql
 
 import (
 	"github.com/go-redis/redis"
@@ -11,7 +11,7 @@ func ConnectDB(host, port, password string) (*redis.Client, error) {
 		DB:       0,        // use default DB
 	})
 
-	if _, err := rdb.Ping(); err != nil {
+	if _, err := rdb.Ping().Result(); err != nil {
 		return nil, err
 	}
 
