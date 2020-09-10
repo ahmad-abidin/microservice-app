@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log"
 	"microservice-app/auth-service/delivery/grpc/proto"
-	"microservice-app/auth-service/model"
 	ucs "microservice-app/auth-service/usecase"
+	"microservice-app/auth-service/utils"
 	"strings"
 
 	"github.com/golang/protobuf/ptypes/empty"
@@ -33,7 +33,7 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	base64BasicAuth, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		return nil, model.LogAndError("grpc-Aen_gAH", err)
+		return nil, utils.WELI("e", "grpc-Aen_gAH", err)
 	}
 	*base64BasicAuth = strings.Replace(*base64BasicAuth, "Basic ", "", -1)
 	decodedBasicAuth, err := base64.StdEncoding.DecodeString(*base64BasicAuth)
@@ -43,7 +43,7 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	t, err := u.usecase.Authentication(username, password)
 	if err != nil {
-		return nil, model.LogAndError("grpc-Aen_Aen", err)
+		return nil, utils.WELI("e", "grpc-Aen_Aen", err)
 	}
 
 	res.Jwt = *t
@@ -58,13 +58,13 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 
 	unsignedToken, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		return nil, model.LogAndError("grpc-Aor_gAH", err)
+		return nil, utils.WELI("e", "grpc-Aor_gAH", err)
 	}
 	*unsignedToken = strings.Replace(*unsignedToken, "Bearer ", "", -1)
 
 	c, err := u.usecase.Authorization(*unsignedToken)
 	if err != nil {
-		return nil, model.LogAndError("grpc-Aor_Aor", err)
+		return nil, utils.WELI("e", "grpc-Aor_Aor", err)
 	}
 
 	i.Name = c.Name
@@ -79,7 +79,7 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 func getAuthorizationHeader(ctx context.Context) (*string, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return nil, model.LogAndError("grpc-gAH", fmt.Errorf("authorization header : %v", ok))
+		return nil, utils.WELI("e", "grpc-gAH", fmt.Errorf("authorization header : %v", ok))
 	}
 	arrayOfMd := md.Get("authorization")
 	authorization := arrayOfMd[0]

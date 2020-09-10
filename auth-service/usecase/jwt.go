@@ -3,6 +3,7 @@ package usecase
 import (
 	"fmt"
 	"microservice-app/auth-service/model"
+	"microservice-app/auth-service/utils"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )
@@ -24,7 +25,7 @@ func Encrypt(identity model.Identity) (*string, error) {
 
 	signedToken, err := token.SignedString(model.JwtSecretKey)
 	if err != nil {
-		return nil, model.LogAndError("usecase-E_SS", err)
+		return nil, utils.WELI("e", "usecase-E_SS", err)
 	}
 
 	return &signedToken, nil
@@ -34,19 +35,19 @@ func Encrypt(identity model.Identity) (*string, error) {
 func Decrypt(unsignedToken string) (*model.Identity, error) {
 	signedToken, err := jwt.Parse(unsignedToken, func(token *jwt.Token) (interface{}, error) {
 		if method, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, model.LogAndError("usecase-D_P", fmt.Errorf("signingmethod %v", ok))
+			return nil, utils.WELI("e", "usecase-D_P", fmt.Errorf("signingmethod %v", ok))
 		} else if method != model.JwtSigningMethod {
-			return nil, model.LogAndError("usecase-D_P", fmt.Errorf("signingmethod %v", ok))
+			return nil, utils.WELI("e", "usecase-D_P", fmt.Errorf("signingmethod %v", ok))
 		}
 		return model.JwtSecretKey, nil
 	})
 	if err != nil {
-		return nil, model.LogAndError("usecase-D_P", err)
+		return nil, utils.WELI("e", "usecase-D_P", err)
 	}
 
 	claims, ok := signedToken.Claims.(jwt.MapClaims)
 	if !ok || !signedToken.Valid {
-		return nil, model.LogAndError("usecase-D_C", err)
+		return nil, utils.WELI("e", "usecase-D_C", err)
 	}
 
 	i := new(model.Identity)

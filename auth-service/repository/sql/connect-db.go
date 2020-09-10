@@ -3,7 +3,7 @@ package sql
 import (
 	"database/sql"
 	"fmt"
-	"microservice-app/auth-service/model"
+	"microservice-app/auth-service/utils"
 )
 
 // ConnectDB ...
@@ -12,11 +12,11 @@ func ConnectDB(username, password, host, port, dbname, driver string) (*sql.DB, 
 
 	db, err := sql.Open(driver, connString)
 	if err != nil {
-		return nil, model.LogAndError("sql-CDB_O", err)
+		return nil, utils.WELI("e", "sql-CDB_O", err)
 	}
 
 	if err := db.Ping(); err != nil {
-		return nil, model.LogAndError("sql-CDB_P", err)
+		return nil, utils.WELI("e", "sql-CDB_P", err)
 	}
 
 	return db, nil
