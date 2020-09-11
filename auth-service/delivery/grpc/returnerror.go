@@ -9,5 +9,5 @@ import (
 )
 
 func rpcError(codes codes.Code, notifcode, errcode string, err error) error {
-	return status.Error(codes, fmt.Sprintf("%v", model.WELI(notifcode, errcode, err)))
+	return status.Error(codes, fmt.Sprintf("%v", model.Log(notifcode, errcode, err)))
 }

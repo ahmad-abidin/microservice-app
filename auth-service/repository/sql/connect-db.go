@@ -12,11 +12,11 @@ func ConnectDB(username, password, host, port, dbname, driver string) (*sql.DB, 
 
 	db, err := sql.Open(driver, connString)
 	if err != nil {
-		return nil, model.WELI("e", "sql-CDB_O", err)
+		return nil, model.Log("e", "sql-CDB_O", err)
 	}
 
 	if err := db.Ping(); err != nil {
-		return nil, model.WELI("e", "sql-CDB_P", err)
+		return nil, model.Log("e", "sql-CDB_P", err)
 	}
 
 	return db, nil

@@ -17,8 +17,8 @@ const (
 	White  = "\033[97m"
 )
 
-// WELI Warning Error Log and Info
-func WELI(notifcode string, errcode string, err error) error {
+// Log Warning Error Log and Info
+func Log(notifcode string, errcode string, err error) error {
 	switch notifcode {
 	case "w":
 		log.Printf("[%vWarning%v] (code%v %v%v) : %v", Yellow, Reset, Yellow, errcode, Reset, err)
@@ -28,6 +28,9 @@ func WELI(notifcode string, errcode string, err error) error {
 		break
 	case "i":
 		log.Printf("[%vInfo%v] (code%v %v%v) : %v", Blue, Reset, Blue, errcode, Reset, err)
+		break
+	case "s":
+		log.Printf("[%vSuccess%v] (code%v %v%v) : %v", Green, Reset, Green, errcode, Reset, err)
 		break
 	}
 

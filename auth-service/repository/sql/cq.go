@@ -27,7 +27,7 @@ func (r *repository) GetIdentityByUnP(username, password string) (*model.Identit
 		where i.email = ? and i.password = ? and i.id_role = r.id
 	`)
 	if err != nil {
-		return nil, model.WELI("e", "sql-GIBUP_P", err)
+		return nil, model.Log("e", "sql-GIBUP_P", err)
 	}
 	defer stmt.Close()
 
@@ -38,7 +38,7 @@ func (r *repository) GetIdentityByUnP(username, password string) (*model.Identit
 		&identity.Address,
 		&identity.Role,
 	); err != nil {
-		return nil, model.WELI("e", "sql-GIBUP_QR", err)
+		return nil, model.Log("e", "sql-GIBUP_QR", err)
 	}
 
 	return identity, nil

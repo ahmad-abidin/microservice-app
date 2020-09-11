@@ -15,7 +15,7 @@ func ConnectDB(host, port, password string) (*redis.Client, error) {
 	})
 
 	if _, err := rdb.Ping().Result(); err != nil {
-		return nil, model.WELI("e", "nosql-CDB_NC", err)
+		return nil, model.Log("e", "nosql-CDB_NC", err)
 	}
 
 	return rdb, nil

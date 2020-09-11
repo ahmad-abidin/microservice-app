@@ -43,7 +43,7 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	res.Jwt = *t
 
-	model.WELI("i", "grpc-Aor", errors.New("Successfully Authentication"))
+	model.Log("s", "grpc-Aor", errors.New("Successfully Authentication"))
 
 	return res, nil
 }
@@ -67,7 +67,7 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 	i.Address = c.Address
 	i.Role = c.Role
 
-	model.WELI("i", "grpc-Aor", errors.New("Successfully Athorization"))
+	model.Log("s", "grpc-Aor", errors.New("Successfully Athorization"))
 
 	return i, nil
 }
