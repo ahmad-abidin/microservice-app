@@ -61,6 +61,8 @@ func (u *usecase) Authentication(basicAuth string) (*string, error) {
 		if err != nil {
 			return nil, model.WELI("e", "usecase-Aen_SI", err)
 		}
+
+		model.WELI("e", "usecase-Aen_SI", fmt.Errorf("Successfully cached to redis"))
 	}
 
 	encryptedIdentity, err := Encrypt(*identity)

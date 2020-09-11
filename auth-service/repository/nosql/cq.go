@@ -27,7 +27,7 @@ func (r *repository) GetIdentity(key string) (*model.Identity, error) {
 	stringIdentity, err := r.Get(key).Result()
 	if err != nil {
 		if fmt.Sprintf("%v", err) == "redis: nil" {
-			return nil, model.WELI("i", "nosql-GI_G", err)
+			return nil, model.WELI("w", "nosql-GI_G", err)
 		}
 		return nil, model.WELI("e", "nosql-GI_G", err)
 	}
