@@ -1,4 +1,4 @@
-package dnsutils
+package dnsmodel
 
 import (
 	"math/rand"

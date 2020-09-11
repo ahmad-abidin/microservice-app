@@ -18,7 +18,7 @@ RUN apt-get install -y --no-install-recommends \
        automake autoconf
 
 # The list of packages nghttp2 recommends for h2load:
-RUN apt-get install -y --no-install-recommends make binutils \
+RUN apt-get install -y --no-install-recommends make binmodel \
         autoconf automake autotools-dev \
         libtool pkg-config zlib1g-dev libcunit1-dev libssl-dev libxml2-dev \
         libev-dev libevent-dev libjansson-dev libjemalloc-dev \

@@ -36,8 +36,8 @@ golang.org/x/net/internal/socks
 golang.org/x/net/proxy
 # gopkg.in/jcmturner/aescts.v1 v1.0.1
 gopkg.in/jcmturner/aescts.v1
-# gopkg.in/jcmturner/dnsutils.v1 v1.0.1
-gopkg.in/jcmturner/dnsutils.v1
+# gopkg.in/jcmturner/dnsmodel.v1 v1.0.1
+gopkg.in/jcmturner/dnsmodel.v1
 # gopkg.in/jcmturner/gokrb5.v7 v7.5.0
 gopkg.in/jcmturner/gokrb5.v7/asn1tools
 gopkg.in/jcmturner/gokrb5.v7/client

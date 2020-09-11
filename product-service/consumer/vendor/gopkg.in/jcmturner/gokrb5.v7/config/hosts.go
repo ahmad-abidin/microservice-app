@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"gopkg.in/jcmturner/dnsutils.v1"
+	"gopkg.in/jcmturner/dnsmodel.v1"
 )
 
 // GetKDCs returns the count of KDCs available and a map of KDC host names keyed on preference order.
@@ -43,7 +43,7 @@ func (c *Config) GetKDCs(realm string, tcp bool) (int, map[int]string, error) {
 	if tcp {
 		proto = "tcp"
 	}
-	index, addrs, err := dnsutils.OrderedSRV("kerberos", proto, realm)
+	index, addrs, err := dnsmodel.OrderedSRV("kerberos", proto, realm)
 	if err != nil {
 		return count, kdcs, err
 	}
@@ -69,12 +69,12 @@ func (c *Config) GetKpasswdServers(realm string, tcp bool) (int, map[int]string,
 		if tcp {
 			proto = "tcp"
 		}
-		c, addrs, err := dnsutils.OrderedSRV("kpasswd", proto, realm)
+		c, addrs, err := dnsmodel.OrderedSRV("kpasswd", proto, realm)
 		if err != nil {
 			return count, kdcs, err
 		}
 		if c < 1 {
-			c, addrs, err = dnsutils.OrderedSRV("kerberos-adm", proto, realm)
+			c, addrs, err = dnsmodel.OrderedSRV("kerberos-adm", proto, realm)
 			if err != nil {
 				return count, kdcs, err
 			}

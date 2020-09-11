@@ -32,11 +32,11 @@ func main() {
 		log.Fatalf("failed to listen on port 9000: %v", err)
 	}
 
-	s := sqlRpo.NewSQLRepository(db)
-	n := nosqlRpo.NewNoSQLRepository(client)
-	u := ucs.NewUsecase(s, n)
+	sr := sqlRpo.NewSQLRepository(db)
+	nr := nosqlRpo.NewNoSQLRepository(client)
+	u := ucs.NewUsecase(sr, nr)
 
-	// grpc
+	// grpc server
 	grpcServer := grpc.NewServer()
 	dlv.NewDeliveryGrpc(grpcServer, u)
 	log.Println("auth service runing on port 9000")

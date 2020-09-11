@@ -21,4 +21,4 @@ before_script:
   - sudo sed -i 's/nameserver .*/nameserver 127.0.0.1/g' /etc/resolv.conf
 
 env:
-  - DNSUTILS_OVERRIDE_NS="127.0.0.1:53"
+  - DNSmodel_OVERRIDE_NS="127.0.0.1:53"

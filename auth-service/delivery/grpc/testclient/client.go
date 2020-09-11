@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 
 	proto "microservice-app/auth-service/delivery/grpc/proto"
 
@@ -12,29 +13,35 @@ import (
 )
 
 func main() {
+	argsRaw := os.Args
+
 	conn, err := grpc.Dial("auth_service:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Printf("could not connect : %v", err)
 	}
 	defer conn.Close()
-	a := proto.NewAuthClient(conn)
+
+	client := proto.NewAuthClient(conn)
 
 	log.Println("### Authentication ###")
-
-	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", "Basic YWhtYWQuYWJpZGluQG1haWwuY29tOnBhc3N3b3JkMTIzNA==")
-	token, err := a.Authentication(ctx, &emptypb.Empty{})
+	ctx := metadata.AppendToOutgoingContext(context.Background(), "authorization", "Basic "+argsRaw[1])
+	credential, err := client.Authentication(ctx, &emptypb.Empty{})
 	if err != nil {
-		log.Printf("error when calling Authentication: %v", err)
+		log.Printf("%v", err)
 	}
-	log.Printf("credential: %v", token)
-	log.Println("### Successfully Authentication ###")
+	log.Printf("credential: %v", credential)
+	log.Println("### Successfully Authentication ###\n\n")
 
 	log.Println("### Authorization ###")
-	ctx = metadata.AppendToOutgoingContext(context.Background(), "authorization", "Bearer "+token.Jwt)
-	identity, err := a.Authorization(ctx, &emptypb.Empty{})
-	if err != nil {
-		log.Printf("error when calling Authorization: %v", err)
+	var bearerToken string
+	if credential != nil {
+		bearerToken = credential.Jwt
 	}
-	log.Printf("full_identity: %v", identity)
+	ctx = metadata.AppendToOutgoingContext(context.Background(), "authorization", "Bearer "+bearerToken)
+	identity, err := client.Authorization(ctx, &emptypb.Empty{})
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	log.Printf("identity: %v", identity)
 	log.Println("### Successfully Authorization ###")
 }

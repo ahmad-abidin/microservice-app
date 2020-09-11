@@ -2,13 +2,13 @@ package grpc
 
 import (
 	"context"
-	"encoding/base64"
+	"errors"
 	"fmt"
-	"log"
 	"microservice-app/auth-service/delivery/grpc/proto"
+	"microservice-app/auth-service/model"
 	ucs "microservice-app/auth-service/usecase"
-	"microservice-app/auth-service/utils"
-	"strings"
+
+	"google.golang.org/grpc/codes"
 
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
@@ -33,22 +33,18 @@ func (u *server) Authentication(ctx context.Context, void *empty.Empty) (*proto.
 
 	base64BasicAuth, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		return nil, utils.WELI("e", "grpc-Aen_gAH", err)
+		return nil, rpcError(codes.FailedPrecondition, "e", "grpc-Aen_gAH", err)
 	}
-	*base64BasicAuth = strings.Replace(*base64BasicAuth, "Basic ", "", -1)
-	decodedBasicAuth, err := base64.StdEncoding.DecodeString(*base64BasicAuth)
-	stringBasicAuth := string(decodedBasicAuth)
-	i := strings.Index(stringBasicAuth, ":")
-	username, password := stringBasicAuth[0:i], stringBasicAuth[i+1:]
 
-	t, err := u.usecase.Authentication(username, password)
+	t, err := u.usecase.Authentication(*base64BasicAuth)
 	if err != nil {
-		return nil, utils.WELI("e", "grpc-Aen_Aen", err)
+		return nil, rpcError(codes.PermissionDenied, "e", "grpc-Aen_Aen", err)
 	}
 
 	res.Jwt = *t
 
-	log.Printf("### Succesfully Authentication ###")
+	model.WELI("i", "grpc-Aor", errors.New("Successfully Authentication"))
+
 	return res, nil
 }
 
@@ -58,13 +54,12 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 
 	unsignedToken, err := getAuthorizationHeader(ctx)
 	if err != nil {
-		return nil, utils.WELI("e", "grpc-Aor_gAH", err)
+		return nil, rpcError(codes.PermissionDenied, "e", "grpc-Aor_gAH", err)
 	}
-	*unsignedToken = strings.Replace(*unsignedToken, "Bearer ", "", -1)
 
 	c, err := u.usecase.Authorization(*unsignedToken)
 	if err != nil {
-		return nil, utils.WELI("e", "grpc-Aor_Aor", err)
+		return nil, rpcError(codes.PermissionDenied, "e", "grpc-Aor_Aor", err)
 	}
 
 	i.Name = c.Name
@@ -72,17 +67,25 @@ func (u *server) Authorization(ctx context.Context, void *empty.Empty) (*proto.I
 	i.Address = c.Address
 	i.Role = c.Role
 
-	log.Printf("### Succesfully Authorization ###")
+	model.WELI("i", "grpc-Aor", errors.New("Successfully Athorization"))
+
 	return i, nil
 }
 
 func getAuthorizationHeader(ctx context.Context) (*string, error) {
+	var authorization string
+
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return nil, utils.WELI("e", "grpc-gAH", fmt.Errorf("authorization header : %v", ok))
+		return nil, rpcError(codes.PermissionDenied, "e", "grpc-gAH", fmt.Errorf("authorization header : %v", ok))
 	}
+
 	arrayOfMd := md.Get("authorization")
-	authorization := arrayOfMd[0]
+	if len(arrayOfMd) == 0 {
+		return nil, rpcError(codes.PermissionDenied, "e", "grpc-gAH_G", errors.New("authorization header is nil"))
+	}
+
+	authorization = arrayOfMd[0]
 
 	return &authorization, nil
 }

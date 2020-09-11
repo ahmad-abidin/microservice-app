@@ -1,4 +1,4 @@
-package utils
+package model
 
 import (
 	"errors"
@@ -21,14 +21,15 @@ const (
 func WELI(notifcode string, errcode string, err error) error {
 	switch notifcode {
 	case "w":
-		log.Printf("[%vWarning%v] (%vcode %v%v) : %v", Yellow, Reset, Yellow, Reset, errcode, err)
+		log.Printf("[%vWarning%v] (code%v %v%v) : %v", Yellow, Reset, Yellow, errcode, Reset, err)
 		break
 	case "e":
-		log.Printf("[%vError%v] (%vcode %v%v) : %v", Red, Reset, Red, Reset, errcode, err)
+		log.Printf("[%vError%v] (code%v %v%v) : %v", Red, Reset, Red, errcode, Reset, err)
 		break
 	case "i":
-		log.Printf("[%vInfo%v] (%vcode %v%v) : %v", Blue, Reset, Blue, Reset, errcode, err)
+		log.Printf("[%vInfo%v] (code%v %v%v) : %v", Blue, Reset, Blue, errcode, Reset, err)
 		break
 	}
+
 	return errors.New(errcode)
 }
