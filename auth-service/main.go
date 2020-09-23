@@ -3,15 +3,14 @@ package main
 import (
 	"log"
 
-	dlv "microservice-app/auth-service/delivery/grpc"
+	dlv "microservice-app/auth-service/delivery/api"
+	"microservice-app/auth-service/model"
 	nosqlRpo "microservice-app/auth-service/repository/nosql"
 	sqlRpo "microservice-app/auth-service/repository/sql"
 	ucs "microservice-app/auth-service/usecase"
 
-	"net"
-
 	_ "github.com/go-sql-driver/mysql"
-	"google.golang.org/grpc"
+	"github.com/labstack/echo"
 )
 
 func main() {
@@ -27,21 +26,25 @@ func main() {
 	}
 	defer client.Close()
 
-	lis, err := net.Listen("tcp", ":9000")
-	if err != nil {
-		log.Fatalf("failed to listen on port 9000: %v", err)
-	}
-
 	sr := sqlRpo.NewSQLRepository(db)
 	nr := nosqlRpo.NewNoSQLRepository(client)
 	u := ucs.NewUsecase(sr, nr)
 
+	// api
+	apiServer := echo.New()
+	dlv.NewDeliveryAPI(apiServer, u)
+	model.Log("e", "error when start api server", apiServer.Start(":9000"))
+
 	// grpc server
-	grpcServer := grpc.NewServer()
-	dlv.NewDeliveryGrpc(grpcServer, u)
-	log.Println("auth service runing on port 9000")
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatalf("failed to serve grpc server over port 9000: %v", err)
-	}
+	// lis, err := net.Listen("tcp", ":9000")
+	// if err != nil {
+	// 	log.Fatalf("failed to listen on port 9000: %v", err)
+	// }
+	// grpcServer := grpc.NewServer()
+	// dlv.NewDeliveryGrpc(grpcServer, u)
+	// log.Println("auth service runing on port 9000")
+	// err = grpcServer.Serve(lis)
+	// if err != nil {
+	// 	log.Fatalf("failed to serve grpc server over port 9000: %v", err)
+	// }
 }

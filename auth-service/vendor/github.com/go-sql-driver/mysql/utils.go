@@ -103,7 +103,7 @@ func readBool(input string) (value bool, valid bool) {
 }
 
 /******************************************************************************
-*                           Time related model                                *
+*                           Time related utils                                *
 ******************************************************************************/
 
 func parseDateTime(str string, loc *time.Location) (t time.Time, err error) {
@@ -610,7 +610,7 @@ func escapeStringQuotes(buf []byte, v string) []byte {
 }
 
 /******************************************************************************
-*                               Sync model                                    *
+*                               Sync utils                                    *
 ******************************************************************************/
 
 // noCopy may be embedded into structs which must not be copied

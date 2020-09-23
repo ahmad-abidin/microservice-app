@@ -17,7 +17,7 @@ const (
 	White  = "\033[97m"
 )
 
-// Log Warning Error Log and Info
+// Log Warning Error Log and Info, return errcode as error
 func Log(notifcode string, errcode string, err error) error {
 	switch notifcode {
 	case "w":

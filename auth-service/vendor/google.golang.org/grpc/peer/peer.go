@@ -17,7 +17,7 @@
  */
 
 // Package peer defines various peer information associated with RPCs and
-// corresponding model.
+// corresponding utils.
 package peer
 
 import (
