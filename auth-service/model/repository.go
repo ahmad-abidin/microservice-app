@@ -1,5 +1,6 @@
 package model
 
+// Identity user identity
 type Identity struct {
 	Name    string `json:name`
 	Email   string `json:email`

@@ -16,6 +16,5 @@ var (
 // Claims required to generate JWT
 type Claims struct {
 	jwt.StandardClaims
-	// Identity
 	Identity
 }
