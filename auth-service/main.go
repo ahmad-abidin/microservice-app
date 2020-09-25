@@ -2,9 +2,8 @@ package main
 
 import (
 	"log"
-	"net"
 
-	dlv "microservice-app/auth-service/delivery/grpc"
+	dlv "microservice-app/auth-service/delivery/api"
 	"microservice-app/auth-service/model"
 	nosqlRpo "microservice-app/auth-service/repository/nosql"
 	sqlRpo "microservice-app/auth-service/repository/sql"
@@ -30,15 +29,15 @@ func main() {
 	nr := nosqlRpo.NewNoSQLRepository(client)
 	u := ucs.NewUsecase(sr, nr)
 
-	// api
-	// apiServer := dlv.NewDeliveryAPI(u)
-	// model.Log("e", "error when start API Server", apiServer.Start(":9000"))
+	// api server -> import 	dlv "microservice-app/auth-service/delivery/api"
+	apiServer := dlv.NewDeliveryAPI(u)
+	model.Log("e", "error when start API Server", apiServer.Start(":9000"))
 
-	// grpc server
-	lis, err := net.Listen("tcp", ":9000")
-	if err != nil {
-		log.Fatalf("failed to listen on port 9000: %v", err)
-	}
-	grpcServer := dlv.NewDeliveryGrpc(u)
-	model.Log("e", "error when start API Server", grpcServer.Serve(lis))
+	// grpc server -> import 	dlv "microservice-app/auth-service/delivery/grpc"
+	// lis, err := net.Listen("tcp", ":9000")
+	// if err != nil {
+	// 	log.Fatalf("failed to listen on port 9000: %v", err)
+	// }
+	// grpcServer := dlv.NewDeliveryGrpc(u)
+	// model.Log("e", "error when start API Server", grpcServer.Serve(lis))
 }
