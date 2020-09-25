@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"microservice-app/auth-service/model"
 	ucs "microservice-app/auth-service/usecase"
+	"net/http"
 
 	"github.com/labstack/echo"
 )
@@ -31,12 +32,12 @@ func (u *server) Authentication(ctx echo.Context) error {
 	base64BasicAuth := ctx.Request().Header.Get("Authorization")
 	token, err := u.usecase.Authentication(base64BasicAuth)
 	if err != nil {
-		return ctx.JSON(200, fmt.Errorf("Error : %v", model.Log("e", "api-Aen_Aen", err)))
+		return ctx.JSON(http.StatusOK, fmt.Errorf("Error : %v", model.Log("e", "api-Aen_Aen", err)))
 	}
 
 	model.Log("s", "api-Aor", errors.New("Successfully Authentication"))
 
-	return ctx.JSON(200, &token)
+	return ctx.JSON(http.StatusOK, &token)
 }
 
 // Authorization ...
@@ -44,10 +45,10 @@ func (u *server) Authorization(ctx echo.Context) error {
 	unsignedToken := ctx.Request().Header.Get("Authorization")
 	identity, err := u.usecase.Authorization(unsignedToken)
 	if err != nil {
-		return ctx.JSON(200, fmt.Errorf("Error : %v", model.Log("e", "api-Aor_Aor", err)))
+		return ctx.JSON(http.StatusOK, fmt.Errorf("Error : %v", model.Log("e", "api-Aor_Aor", err)))
 	}
 
 	model.Log("s", "api-Aor", errors.New("Successfully Athorization"))
 
-	return ctx.JSON(200, identity)
+	return ctx.JSON(http.StatusOK, identity)
 }
