@@ -20,11 +20,15 @@ type server struct {
 }
 
 // NewDeliveryGrpc ...
-func NewDeliveryGrpc(s *grpc.Server, u ucs.Usecase) {
+func NewDeliveryGrpc(u ucs.Usecase) *grpc.Server {
+	s := grpc.NewServer()
 	authServer := &server{
 		usecase: u,
 	}
 	proto.RegisterAuthServer(s, authServer)
+
+	return s
+
 }
 
 // Authentication ...

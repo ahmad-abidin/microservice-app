@@ -14,12 +14,16 @@ type server struct {
 }
 
 // NewDeliveryAPI ...
-func NewDeliveryAPI(s *echo.Echo, u ucs.Usecase) {
+func NewDeliveryAPI(u ucs.Usecase) *echo.Echo {
+	s := echo.New()
 	authServer := &server{
 		usecase: u,
 	}
+
 	s.GET("/authentication", authServer.Authentication)
 	s.GET("/authorization", authServer.Authorization)
+
+	return s
 }
 
 // Authentication ...
